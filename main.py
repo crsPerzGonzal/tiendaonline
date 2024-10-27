@@ -36,7 +36,6 @@ async def login(user: User):
         raise HTTPException(status_code=500, detail=f'Error al conectar con MySQL: {err}')
     finally:
         cursor.close()
-        connection.close()
 
 @app.post("/insert")
 async def new_cuent(resgistro: regiUser):
@@ -56,7 +55,7 @@ async def new_cuent(resgistro: regiUser):
         raise HTTPException(status_code=500, detail=f'Error al conectar con MySQL: {err}')
     finally:
         cursor.close()
-        connection.close()
+
 
 
 @app.get("/productos")  # Nota el plural aquí
