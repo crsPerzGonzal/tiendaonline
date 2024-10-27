@@ -10,6 +10,7 @@ import Cart from "./componentes/Cart";
 import ProductDetail from "./pages/ProductDetail";
 import { CartProvider } from "./contexts/CartContext";
 import "./assets/images/styles/App.css"; // Estilos globales
+import ProductItem from "./componentes/ProductItem";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/products/:product_id" element={<ProductDetail />} />
+              <Route path="/product" element={<ProductItem />} />
             </Routes>
           </main>
           <Footer />
