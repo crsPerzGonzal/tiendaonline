@@ -21,7 +21,7 @@ const ProductDetail = () => {
         console.log("Obteniendo producto con ID:", product_id);
 
         const response = await axios.get(`http://127.0.0.1:8000/productos/${product_id}`);
-
+        
         if (response.status === 200 && response.data) {
           setProduct(response.data);
           console.log("Producto recibido:", response.data);
