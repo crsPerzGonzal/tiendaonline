@@ -23,8 +23,8 @@ const ProductItem = ({ product }) => {
       }}>
         Añadir al Carrito
         </button>
-        <Link to={`/product/${product.product_id}`}>
-          <button>Ver Producto</button>
+        <Link to={`/products/${product.product_id}`}>
+        <button>Ver Producto</button>
         </Link>
       </div>
     </div>
