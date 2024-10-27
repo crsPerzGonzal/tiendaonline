@@ -1,8 +1,9 @@
 from fastapi import FastAPI, HTTPException
 import mysql.connector
 from backend.core.confi import get_connetion
-from backend.models.user import User, regiUser,product
+from backend.models.user import User, regiUser, OrderResponse
 from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
 
@@ -57,7 +58,6 @@ async def new_cuent(resgistro: regiUser):
         cursor.close()
 
 
-
 @app.get("/productos")  # Nota el plural aquí
 async def get_productos():
     connection = get_connetion()
@@ -75,5 +75,25 @@ async def get_productos():
         #connection.close() esto no debe estar en este lugar, solo se termina el cursor. 
 
 
+@app.post("/orders")
+async def create_order(order: OrderResponse):
+    connection = get_connetion()  # Asegúrate de que esta función esté definida correctamente
+    cursor = connection.cursor(dictionary=True)
+    query = "INSERT INTO orders (user_id, order_date, status, total_amount) VALUES (%s, %s, %s, %s)"
+    
+    try:
+        cursor.execute(query, (order.user_id, order.order_date, order.status, order.total_amount))
+        connection.commit()  # Confirma la inserción en la base de datos
+
+        if cursor.rowcount > 0:
+            return {"message": "Orden creada exitosamente"}
+        else:
+            raise HTTPException(status_code=404, detail="Error al ingresar los datos")
+    except mysql.connector.Error as err:
+        raise HTTPException(status_code=500, detail=f'Error al conectar con MySQL: {err}')
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f'Error inesperado: {e}')
+    finally:
+        cursor.close()
 
 

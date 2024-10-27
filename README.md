@@ -2,7 +2,7 @@ proyecto echo por:
 cristian perez(bakend)
 andres pedroza(frontend)
 yimileth manga(base de datos)
-jordy andres(fronted)
+jordy andres(frontend)
 
 
 primero dirijace al frontend cd ./frontend/ 
