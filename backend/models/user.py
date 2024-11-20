@@ -1,22 +1,31 @@
-from pydantic import BaseModel
-from datetime import datetime
-from enum import Enum
+from sqlalchemy import column, Integer, String, Float, DATETIME, Enum
+from backend.core.confi import Base
 
-class User(BaseModel):
-     username: str
-     password_hash: str
 
-class regiUser(BaseModel):
-     username: str
-     email:str
-     password_hash: str
+class Users(Base):
+     #table name
+     __tablename__ = "users"
+
+     username = column(String)
+     password_hash = column(String)
+
+class regiUser(Base):
+
+     __tablename__ = "users"
+
+     username = column(String)
+     email = column(String)
+     password_hash = column(String)
      
-class product(BaseModel):
-      product_id: int
-      name: str
-      price: float
-      image_url: str
-      description: str
+class product(Base):
+      
+      __tablename__ = "products"
+
+      product_id = column(Integer, primary_key=True)
+      name = column(String)
+      price = column(Float)
+      image_url = column(String)
+      description = column(String)
 
 
 class OrderStatus(str, Enum):
@@ -25,8 +34,11 @@ class OrderStatus(str, Enum):
     shipped = "shipped"
     delivered = "delivered"
 
-class OrderResponse(BaseModel):
-    user_id: int
-    order_date: datetime  # Asegúrate de que sea un datetime
-    status: OrderStatus
-    total_amount: float
+class OrderResponse(Base):
+    
+    __tablename__ = "orders"
+
+    user_id = column(Integer, primary_key = True)
+    order_date = column(DATETIME)  # Asegúrate de que sea un datetime
+    status = column(OrderStatus)
+    total_amount = column(Float)
