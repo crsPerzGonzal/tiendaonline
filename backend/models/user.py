@@ -2,7 +2,7 @@ from sqlalchemy import column, Integer, String, Float, DATETIME, Enum
 from backend.core.confi import Base
 
 
-class Users(Base):
+class users(Base):
      #table name
      __tablename__ = "users"
 
@@ -17,7 +17,7 @@ class regiUser(Base):
      email = column(String)
      password_hash = column(String)
      
-class product(Base):
+class products(Base):
       
       __tablename__ = "products"
 
