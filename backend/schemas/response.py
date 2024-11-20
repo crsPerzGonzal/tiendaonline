@@ -21,7 +21,7 @@ class RegiSchema(BaseModel):
         orm_mode = True
 
 
-class product(BaseModel):
+class productSchame(BaseModel):
     product_id = Optional[int] = None
     name = Optional[str] = None
     price = Optional[float] = None
