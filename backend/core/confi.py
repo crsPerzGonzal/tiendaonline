@@ -1,11 +1,26 @@
-import mysql.connector
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
-mysql_confi = {
-    'host': '127.0.0.1',
-    'user':'root',
-    'database':'tiendaonline',
-    'auth_plugin':'mysql_native'
-}
-connetion = mysql.connector.connect(**mysql_confi, autocommit=True)
-def get_connetion():
-    return connetion
+
+Databale_url = "localhost"
+
+#se crea el motoro 
+engine = create_engine(Databale_url, connect_args={"check_same_thread": False})
+
+#parametro para el motor
+sessionlocalhost = sessionmaker(commit=False,
+                                autoflush=False,
+                                bind=engine)
+#se crea el mapeador
+Base = declarative_base()
+
+#sea crea una funcion para 
+async def get_db():
+    db = sessionlocalhost()
+    try:
+        #producir
+        yield db
+    finally:
+        db.close()
+
