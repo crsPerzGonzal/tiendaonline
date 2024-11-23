@@ -81,3 +81,20 @@ def insert_orden(db: Session, orderResponse: OrderSchema):
 
 def get_orfer_by_id(db: Session, user_id: int):
     return db.query(OrderResponse).filter(OrderResponse.user_id == user_id).first()
+
+def get_user_by_email(db: Session, password_hash: str):
+    return db.query(UserSchema).filter(UserSchema.password_hash == password_hash).first()
+
+def authenticate(db: Session, user: UserSchema):
+    _user = get_user_by_email(db=db, password_hash=user.password_hash)
+
+    if _user is None:
+        return None
+
+    if _user.password_hash == user.password_hash:
+        return _user
+    
+from backend.core.token import create_token
+
+token = create_token("hash789")  
+print("Token generado:", token)
