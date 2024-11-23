@@ -13,8 +13,9 @@ const Login = () => {
     e.preventDefault();
     // Aquí agregarás la lógica para autenticar al usuario
     try {
-      const response = await axios.post("http://127.0.0.1:8000/users", { username, password_hash });
+      const response = await axios.post("http://127.0.0.1:8000//users", { username, password_hash });
       if (response.data) {
+        console.log("producto mostrado" + response.data);
         setUserNameDisplay(response.data.username);
       } else {
         alert("error de insertar datos")
