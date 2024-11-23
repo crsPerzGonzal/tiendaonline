@@ -1,4 +1,4 @@
-from typing import Optional, TypeVar
+from typing import Optional, TypeVar, Literal
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -31,8 +31,8 @@ class ProductSchema(BaseModel):
 
 class OrderSchema(BaseModel):
     user_id: Optional[int] = None
-    order_date: Optional[datetime] = None  # Cambiado a datetime
-    status: Optional[str] = None
+    order_date: Optional[datetime] = None  
+    status: Literal["pending", "completed", "cancelled"]
     total_amount: Optional[float] = None
 
     class Config:
