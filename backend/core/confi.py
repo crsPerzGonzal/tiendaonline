@@ -2,25 +2,18 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
+DATABASE_URL = "mysql+mysqlconnector://root@localhost:3306/tiendaonline"  
 
-Databale_url = "localhost"
 
-#se crea el motoro 
-engine = create_engine(Databale_url, connect_args={"check_same_thread": False})
+engine = create_engine(DATABASE_URL)
 
-#parametro para el motor
-sessionlocalhost = sessionmaker(commit=False,
-                                autoflush=False,
-                                bind=engine)
-#se crea el mapeador
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
 Base = declarative_base()
 
-#sea crea una funcion para 
 async def get_db():
-    db = sessionlocalhost()
+    db = SessionLocal()
     try:
-        #producir
         yield db
     finally:
         db.close()
-
