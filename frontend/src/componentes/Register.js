@@ -13,7 +13,7 @@ const Register = () => {
     e.preventDefault();
     // Aquí agregarás la lógica para registrar al usuario
     try {
-      const response = await axios.post("http://127.0.0.1:8000/create", {
+      const response = await axios.post("http://127.0.0.1:8000/api/create", {
         username,
         email,
         password_hash,
