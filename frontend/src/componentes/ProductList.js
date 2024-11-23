@@ -11,7 +11,7 @@ const ProductList = () => {
     const fetchProducts = async () => { 
       try {
         // Reemplaza con tu ruta de API real
-        const response = await axios.get("http://127.0.0.1:8000/productos");
+        const response = await axios.get("http://127.0.0.1:8000/api/producto");
         if (response.data) {
           setProducts(response.data); 
           console.log("producto mostrado" + response.data);
