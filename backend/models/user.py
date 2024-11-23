@@ -5,36 +5,28 @@ from backend.core.confi import Base
 class Users(Base):
      __tablename__ = "users"
      user_id = Column(Integer, primary_key=True)
-     username = Column(String(255))  # Especificamos una longitud para VARCHAR
-     password_hash = Column(String(255))  # También para el password_hash
+     username = Column(String(255))  
+     password_hash = Column(String(255))
+     email = Column(String(255))
 
-
-class regiUser(Base):
-     __tablename__ = "regi_users"
-     user_id = Column(Integer, primary_key=True)
-     username = Column(String(255))  # Especificamos la longitud
-     email = Column(String(255))  # Especificamos la longitud
-     password_hash = Column(String(255))  # Especificamos la longitud
      
 class Products(Base):
-     __tablename__ = "product"
+     __tablename__ = "products"
      product_id = Column(Integer, primary_key=True)
-     name = Column(String(255))  # Especificamos la longitud
+     name = Column(String(255)) 
      price = Column(Float)
-     image_url = Column(String(255))  # Especificamos la longitud
-     description = Column(String(255))  # Especificamos la longitud
-
+     image_url = Column(String(255))  
+     description = Column(String(255))  
 
 class OrderStatus(str, Enum):
-    pending = "pending"
-    processing = "processing"
-    shipped = "shipped"
-    delivered = "delivered"
+    PENDING = "pending"
+    COMPLETED = "completed"
+    CANCELLED = "cancelled"
 
 
 class OrderResponse(Base):
     __tablename__ = "orders"
     user_id = Column(Integer, primary_key=True)
-    order_date = Column(DateTime)  # Asegúrate de que sea un datetime
+    order_date = Column(DateTime)
     status = Column(OrderStatus)
     total_amount = Column(Float)
