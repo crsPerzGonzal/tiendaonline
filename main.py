@@ -1,12 +1,20 @@
-from fastapi import FastAPI, HTTPException
-import mysql.connector
-from backend.core.confi import get_connetion
-from backend.models.user import User, regiUser, OrderResponse
+from fastapi import FastAPI
+import uvicorn
+import backend.models.user as model
+from backend.core.confi import engine
+from backend.routers.reuter import router as router_crud
 from fastapi.middleware.cors import CORSMiddleware
 
 
+model.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+
+app = FastAPI(
+    title="tienda de ropa",
+    description="vendemos asessorios y ropa de toda clase",
+    version="1"
+)
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -18,85 +26,18 @@ app.add_middleware(
 
 
 
+
+
 @app.get("/")
-def read_root():
-    return {"hola" : "mundo"}
+async def index():
+    return {
+        "message": "hello"
+    }
 
-@app.post("/users")
-async def login(user: User):
-    connection = get_connetion()
-    cursor = connection.cursor(dictionary=True)
-    query = "SELECT * FROM users WHERE username = %s AND password_hash = %s"
-    
-    try:
-        cursor.execute(query, (user.username, user.password_hash))
-        user_result = cursor.fetchone()
-        
-        if user_result:
-            return user_result  # Devuelve la información del usuario
-        else:
-            raise HTTPException(status_code=404, detail="Usuario no encontrado o contraseña incorrecta.")
-    except mysql.connector.Error as err:
-        raise HTTPException(status_code=500, detail=f'Error al conectar con MySQL: {err}')
-    finally:
-        cursor.close()
-
-@app.post("/insert")
-async def new_cuent(resgistro: regiUser):
-    connection = get_connetion()
-    cursor = connection.cursor(dictionary=True)
-    query = "INSERT INTO users (username, email, password_hash) VALUES (%s, %s, %s)"
-    
-    try:
-        cursor.execute(query, (resgistro.username, resgistro.email, resgistro.password_hash))
-        connection.commit()  # Confirma la inserción en la base de datos
-
-        if cursor.rowcount > 0:
-            return {"message": "Usuario insertado exitosamente", "username": resgistro.username}
-        else:
-            raise HTTPException(status_code=404, detail="Error al ingresar los datos")
-    except mysql.connector.Error as err:
-        raise HTTPException(status_code=500, detail=f'Error al conectar con MySQL: {err}')
-    finally:
-        cursor.close()
+app.include_router(router=router_crud, tags=["CRUD"], prefix="/api")
 
 
-@app.get("/productos")  # Nota el plural aquí
-async def get_productos():
-    connection = get_connetion()
-    cursor = connection.cursor(dictionary=True)
-    query = "SELECT product_id , name, price, image_url, description FROM products"
-
-    try:
-        cursor.execute(query)
-        productos = cursor.fetchall()
-        return productos  # Devuelve la lista de productos
-    except mysql.connector.Error as err:
-        raise HTTPException(status_code=500, detail=f'Error al conectar con MySQL: {err}')
-    finally:
-        cursor.close() # Este se queda... 
-        #connection.close() esto no debe estar en este lugar, solo se termina el cursor. 
-
-
-@app.post("/orders")
-async def create_order(order: OrderResponse):
-    connection = get_connetion()  # Asegúrate de que esta función esté definida correctamente
-    cursor = connection.cursor(dictionary=True)
-    query = "INSERT INTO orders (user_id, order_date, status, total_amount) VALUES (%s, %s, %s, %s)"
-    
-    try:
-        cursor.execute(query, (order.user_id, order.order_date, order.status, order.total_amount))
-        connection.commit()  # Confirma la inserción en la base de datos
-
-        if cursor.rowcount > 0:
-            return {"message": "Orden creada exitosamente"}
-        else:
-            raise HTTPException(status_code=404, detail="Error al ingresar los datos")
-    except mysql.connector.Error as err:
-        raise HTTPException(status_code=500, detail=f'Error al conectar con MySQL: {err}')
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f'Error inesperado: {e}')
-    finally:
-        cursor.close()
-
-
+if __name__ == "__main__":
+    uvicorn.run("main:app",
+    host="localhost",
+    reload=True)
