@@ -5,8 +5,8 @@ from datetime import datetime
 T = TypeVar("T")
 
 class UserSchema(BaseModel):
-    username: Optional[str] = None
-    password_hash: Optional[str] = None
+    username: str
+    password_hash: str
 
     class Config:
         from_attributes = True
