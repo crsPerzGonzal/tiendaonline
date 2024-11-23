@@ -1,31 +1,28 @@
-from sqlalchemy import column, Integer, String, Float, DATETIME, Enum
+from sqlalchemy import Column, Integer, String, Float, DateTime, Enum
 from backend.core.confi import Base
 
 
-class users(Base):
-     #table name
+class Users(Base):
      __tablename__ = "users"
+     user_id = Column(Integer, primary_key=True)
+     username = Column(String(255))  # Especificamos una longitud para VARCHAR
+     password_hash = Column(String(255))  # También para el password_hash
 
-     username = column(String)
-     password_hash = column(String)
 
 class regiUser(Base):
-
-     __tablename__ = "users"
-
-     username = column(String)
-     email = column(String)
-     password_hash = column(String)
+     __tablename__ = "regi_users"
+     user_id = Column(Integer, primary_key=True)
+     username = Column(String(255))  # Especificamos la longitud
+     email = Column(String(255))  # Especificamos la longitud
+     password_hash = Column(String(255))  # Especificamos la longitud
      
-class products(Base):
-      
-      __tablename__ = "products"
-
-      product_id = column(Integer, primary_key=True)
-      name = column(String)
-      price = column(Float)
-      image_url = column(String)
-      description = column(String)
+class Products(Base):
+     __tablename__ = "product"
+     product_id = Column(Integer, primary_key=True)
+     name = Column(String(255))  # Especificamos la longitud
+     price = Column(Float)
+     image_url = Column(String(255))  # Especificamos la longitud
+     description = Column(String(255))  # Especificamos la longitud
 
 
 class OrderStatus(str, Enum):
@@ -34,11 +31,10 @@ class OrderStatus(str, Enum):
     shipped = "shipped"
     delivered = "delivered"
 
-class OrderResponse(Base):
-    
-    __tablename__ = "orders"
 
-    user_id = column(Integer, primary_key = True)
-    order_date = column(DATETIME)  # Asegúrate de que sea un datetime
-    status = column(OrderStatus)
-    total_amount = column(Float)
+class OrderResponse(Base):
+    __tablename__ = "orders"
+    user_id = Column(Integer, primary_key=True)
+    order_date = Column(DateTime)  # Asegúrate de que sea un datetime
+    status = Column(OrderStatus)
+    total_amount = Column(Float)
