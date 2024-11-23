@@ -20,7 +20,7 @@ const Cart = () => {
 
     try {
       // Autenticación del usuario
-      const response = await axios.post("http://127.0.0.1:8000/users", {
+      const response = await axios.post("http://127.0.0.1:8000/api/users", {
         username,
         password_hash,
       });
@@ -37,7 +37,7 @@ const Cart = () => {
      
       
 
-      const orderResponse = await axios.post("http://127.0.0.1:8000/orders/", orderData);
+      const orderResponse = await axios.post("http://127.0.0.1:8000/api/inset_orden/", orderData);
 
       console.log("Orden creada:", orderResponse.data);
 
