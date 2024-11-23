@@ -1,52 +1,45 @@
-from typing import list, Optional, Generic, TypeVar
+from typing import Optional, TypeVar
 from pydantic import BaseModel
-from pydantic.generics import GenericModel
-
+from datetime import datetime
 
 T = TypeVar("T")
 
 class UserSchema(BaseModel):
-    username = Optional[str] = None
-    password_hash = Optional[str] = None
+    username: Optional[str] = None
+    password_hash: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class RegiSchema(BaseModel):
-    username = Optional[str] = None
-    email = Optional[str] = None
-    password_hash = Optional[str] = None
+    username: Optional[str] = None
+    email: Optional[str] = None
+    password_hash: Optional[str] = None
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
-
-class productSchame(BaseModel):
-    product_id = Optional[int] = None
-    name = Optional[str] = None
-    price = Optional[float] = None
-    imagen_url = Optional[str] = None
-    descripcion = Optional[str] = None
-
-    class Config:
-        orm_mode = True
-
-class orderSchema(BaseModel):
-    user_id = Optional[int] = None
-    order_date = Optional[str] = None
-    Status = Optional[str] = None
-    total_amount = Optional[float] = None
+class ProductSchema(BaseModel):
+    product_id: Optional[int] = None
+    name: Optional[str] = None
+    price: Optional[float] = None
+    image_url: Optional[str] = None
+    description: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
+class OrderSchema(BaseModel):
+    user_id: Optional[int] = None
+    order_date: Optional[datetime] = None  # Cambiado a datetime
+    status: Optional[str] = None
+    total_amount: Optional[float] = None
+
+    class Config:
+        from_attributes = True
 
 class Response(BaseModel):
     code: str
     status: str
     message: str
     result: Optional[T]
-
-
-
-
-
